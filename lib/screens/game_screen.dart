@@ -19,7 +19,9 @@ class GameScreen extends StatelessWidget {
             final replay = await Navigator.pushReplacementNamed(
               context,
               '/result',
-              arguments: gameProvider.didPlayerWin,
+              arguments: {
+                'didPlayerWin': gameProvider.didPlayerWin
+              }, // ส่งค่า didPlayerWin เป็น Map
             );
 
             if (replay == true) {
@@ -49,7 +51,8 @@ class GameScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: CardWidget(card: gameProvider.playerCards[index]),
+                        child:
+                            CardWidget(card: gameProvider.playerCards[index]),
                       );
                     },
                   ),

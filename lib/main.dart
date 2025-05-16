@@ -1,33 +1,49 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
-import 'screens/game_screen.dart';
-import 'screens/result_screen.dart';
-import 'providers/game_provider.dart';
-import 'package:provider/provider.dart';
+import 'cardgame.dart'; // นำเข้าไฟล์ cardgame.dart ของคุณ
 
 void main() {
-  runApp(const CardGameApp());
+  runApp(const MyApp()); // เรียกใช้ MyApp แทน CardGameApp โดยตรง
 }
 
-class CardGameApp extends StatelessWidget {
-  const CardGameApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => GameProvider(),
-      child: MaterialApp(
-        title: 'Climate Card Game',
-        theme: ThemeData(
-          primarySwatch: Colors.green,
-          fontFamily: 'default',
+    return const MaterialApp(
+      title: 'Main Screen',
+      home: MainScreen(), // กำหนด MainScreen เป็นหน้าจอเริ่มต้น
+    );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Main Screen'),
+      ),
+      body: Center(
+        child: SizedBox(
+          width: 200, // กำหนดความกว้างของปุ่ม
+          height: 100, // กำหนดความสูงของปุ่ม
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const CardGameApp()),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              textStyle:
+                  const TextStyle(fontSize: 24), // ปรับขนาดตัวอักษรในปุ่ม
+            ),
+            child: const Text('Go to Card Game'),
+          ),
         ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => const HomeScreen(),
-          '/game': (context) => const GameScreen(),
-          '/result': (context) => const ResultScreen(),     
-                  },
       ),
     );
   }
