@@ -37,23 +37,47 @@ class GameScreen extends StatelessWidget {
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
-                EnemyWidget(
-                  enemyIndex: gameProvider.currentEnemyIndex,
-                  health: gameProvider.currentEnemyHealth,
-                ),
+                // ป้องกันการเข้าถึง index ที่ผิดพลาด
+                if (gameProvider.currentEnemyIndex < gameProvider.enemiesLength)
+                  EnemyWidget(
+                    enemyIndex: gameProvider.currentEnemyIndex,
+                    health: gameProvider.currentEnemyHealth,
+                  )
+                else
+                  const Text(
+                      'All enemies defeated!'), // หรือ widget อื่นๆ ที่เหมาะสม
+
                 const SizedBox(height: 20),
-                SizedBox(
-                  height: 160,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: gameProvider.playerCards.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child:
-                            CardWidget(card: gameProvider.playerCards[index]),
-                      );
-                    },
+                Center(
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height * 0.6,
+                      minHeight: MediaQuery.of(context).size.height * 0.6,
+                    ),
+                    child: SingleChildScrollView(
+                      child: Wrap(
+                        alignment: WrapAlignment.center,
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        children: gameProvider.playerCards.map((card) {
+                          return SizedBox(
+                            width: 100,
+                            height: 160,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 4),
+                              child: CardWidget(card: card),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
