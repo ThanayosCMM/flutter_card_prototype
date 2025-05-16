@@ -26,8 +26,13 @@ class CardGameApp extends StatelessWidget {
         routes: {
           '/': (context) => const HomeScreen(),
           '/game': (context) => const GameScreen(),
-          '/result': (context) => const ResultScreen(
-              didPlayerWin: false), // <--- แก้ไขตรงนี้ ใส่ค่า didPlayerWin
+          '/result': (context) => Consumer<GameProvider>(
+                // ใช้ Consumer เพื่อเข้าถึง GameProvider
+                builder: (context, gameProvider, _) => ResultScreen(
+                  didPlayerWin: false, // หรือค่าเริ่มต้นอื่น ๆ ที่เหมาะสม
+                  onExit: gameProvider.resetGame, // ส่งฟังก์ชัน resetGame
+                ),
+              ),
         },
       ),
     );

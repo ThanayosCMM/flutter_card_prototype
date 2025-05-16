@@ -20,8 +20,9 @@ class GameScreen extends StatelessWidget {
               context,
               '/result',
               arguments: {
-                'didPlayerWin': gameProvider.didPlayerWin
-              }, // ส่งค่า didPlayerWin เป็น Map
+                'didPlayerWin': gameProvider.didPlayerWin,
+                'onExit': gameProvider.resetGame, // ส่งฟังก์ชัน resetGame
+              },
             );
 
             if (replay == true) {
@@ -41,8 +42,6 @@ class GameScreen extends StatelessWidget {
                   health: gameProvider.currentEnemyHealth,
                 ),
                 const SizedBox(height: 20),
-
-                // Player Cards
                 SizedBox(
                   height: 160,
                   child: ListView.builder(
@@ -57,12 +56,9 @@ class GameScreen extends StatelessWidget {
                     },
                   ),
                 ),
-
                 const SizedBox(height: 20),
                 ScoreWidget(score: gameProvider.totalValue),
                 const Spacer(),
-
-                // Action Buttons
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
